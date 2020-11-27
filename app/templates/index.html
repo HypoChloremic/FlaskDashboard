@@ -14,8 +14,7 @@
           <div class="card-header ">
             <div class="row">
               <div class="col-sm-6 text-left">
-                <h5 class="card-category">Total Shipments</h5>
-                <h2 class="card-title">Performance</h2>
+                <h2 class="card-title">Portfolio</h2>
               </div>
               <div class="col-sm-6">
                 <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
@@ -271,7 +270,7 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <!-- <tbody>
                   <tr>
                     <td>
                       Dakota Rice
@@ -370,7 +369,7 @@
                       $98,615
                     </td>
                   </tr>
-                </tbody>
+                </tbody> -->
               </table>
             </div>
           </div>
@@ -380,15 +379,14 @@
 
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
+<!-- here comes the javascripts block!
+super interesting that they are attached in this way,
+but also adds some functionality and understanding for us  -->
 {% block javascripts %}
-
   <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      demo.initDashboardPageCharts();
-
-    });
+      $(document).ready(function() {
+        // Javascript method's body can be found in assets/js/demos.js
+        graphs.initDashboardPageCharts();
+      });
   </script>
-
 {% endblock javascripts %}
