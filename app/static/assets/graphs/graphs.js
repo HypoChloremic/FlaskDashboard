@@ -565,8 +565,8 @@ graphs = {
             zeroLineColor: "transparent",
           },
           ticks: {
-            suggestedMin: 0, // This is important for the height of the bars
-            suggestedMax: 100,
+            // suggestedMin: 0, // This is important for the height of the bars
+            // suggestedMax: 100,
             padding: 20,
             fontColor: "#9e9e9e"
           }
@@ -732,10 +732,10 @@ graphs = {
         data:data,
         columns: [
           { type: 'text', title:'Company', width:120 },
-          { type: 'numeric', title:'Value (KR)', width: 100}, // mask:'KR ###.##,00', decimal:'.' },
-          { type: 'numeric', title:'Perc (%)', width: 100}, //, mask:'% ###.##,00', decimal:'.' },
-          { type: 'numeric', title:'Expected Perc (%)', width: 150}, //, mask:'% ###.##,00', decimal:'.' },
-          { type: 'numeric', title:'Expected Net (kr)', width: 150} //, mask:'% ###.##,00', decimal:'.' },
+          { type: 'numeric', title:'Value (KR)', width: 100},
+          { type: 'numeric', title:'Perc (%)', width: 100},
+          { type: 'numeric', title:'Expected Perc (%)', width: 150},
+          { type: 'numeric', title:'Expected Net (kr)', width: 150}
         ],
       });
 
