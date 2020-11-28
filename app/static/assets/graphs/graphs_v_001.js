@@ -636,7 +636,7 @@ graphs = {
     // #######################################
     // ############ INTERACT TABLE ###########
     // #######################################
-    // var tbl = document.getElementById('port_table');
+    var tbl = document.getElementById('port_table');
     var tbl_tot = document.getElementById('port_t_tot');
     
     
@@ -649,88 +649,65 @@ graphs = {
         const element = tbl.rows[i];
         vals.push(parseInt(element.cells[val_i].innerHTML));
       }
-      console.log("vals: ", vals);
+      console.log("vals: ", vals)
       return vals;
     };
     
-    let update = function(tbl){
-      let v_arr = tbl.getData(false);
-      let tot = 0.0;
+    let add_update_perc = function(){
+      let v_arr = return_vals();
+      let tot = 0;
       for (let i = 0; i < v_arr.length; i++) {
-        tot = tot + parseFloat(v_arr[i][val_i].replace("KR ", "").replace(".", ""));
+        tot = tot + v_arr[i];
       }
-      
-      document.getElementById('port_t_tot').innerHTML = tot;
-
       // Calc perc
       let perc = [];
-      let plc;
-      // let d = m_tbl.getData(false);
       for (let i = 0; i < v_arr.length; i++) {
-        // tbl.rows[i+1].cells[per_i].innerHTML = String(v_arr[i] / tot)
-        p = parseFloat(v_arr[i][val_i].replace("KR ", "").replace(".", "")) / tot;
-        v_arr[i][per_i] = parseFloat((p * 100).toFixed(2));
-      };
-      m_tbl.setData(v_arr)
+        tbl.rows[i+1].cells[per_i].innerHTML = String(v_arr[i] / tot)
+      }
     };
-
+    
+    // Using jexcel
+    var data = [
+      ['AMZN', 0, 0],
+    ];
+    
+    var m_tbl = jexcel(document.getElementById('spreadsheet'), {
+        data:data,
+        columns: [
+          { type: 'text', title:'Cpny', width:120 },
+          { type: 'numeric', title:'Value', width:100, mask:'KR #.##,00', decimal:'.' },
+          { type: 'numeric', title:'Perc', width:100, mask:'% #.##,00', decimal:'.' },
+        ]
+      });
       
-    // ############ EVENTS ###########  
+      // adding new rows to the table
     var add_d = document.getElementById('add_data');
     add_d.onclick = function(){
+      console.log('Adding Companies')
       // Method made to add rows to the portfolio table
       // Furthermore, we will be using this to
       // modify the above bar charts. 
-      
-      // FIELDS
+
+      // Get the input
       let in_obj = document.getElementsByClassName('tbl_cl');
       let in_array = [];
       for (const field of in_obj) {
         in_array.push(field.value)     
       }
 
-      // Get a reference to the table 
-      console.log(m_tbl.getData(false));
-      if (m_tbl.getData(false).length > 0) 
-      {
-        m_tbl.insertRow(in_array, -1);
-      }
-      else 
-      {
-        m_tbl.insertRow(in_array, 0)
-        m_tbl.setData(false)
-      };
+      // Get a reference to the table    
+      newRow = tbl.insertRow(-1); // Insert a row at the end of the table
 
-      update(m_tbl);
+      for (let i = 0; i < tbl.rows[0].cells.length; i++) {
+        const element = in_array[i];
+        newCell = newRow.insertCell(i);  // Insert a cell in the row at index 0
+        newCell.appendChild(document.createTextNode(element));
+        console.log(element)
+      }
+      add_update_perc();
     };
     
-    // ENTER KEY
-    var enter_event = function(event) {
-      // Number 13 is the "Enter" key on the keyboard
-      if (event.keyCode === 13) {
-        event.preventDefault(); // Cancel the default action 
-        document.getElementById("add_data").click(); // Trigger button click
-      }
-    };
-    var tbl_fields = document.getElementsByClassName("tbl_cl");
-    tbl_fields[0].addEventListener("keyup", enter_event); 
-    tbl_fields[1].addEventListener("keyup", enter_event); 
-    
-    // #### Starting jexcel
-    var data = [];
-    var m_tbl = jexcel(document.getElementById('spreadsheet'), {
-        data:data,
-        columns: [
-          { type: 'text', title:'Company', width:120 },
-          { type: 'numeric', title:'Value (KR)', width:100},// mask:'KR ###.##,00', decimal:'.' },
-          { type: 'numeric', title:'Perc (%)', width:100}//, mask:'% ###.##,00', decimal:'.' },
-        ],
-      });
 
-    var update_btn = document.getElementById('update_t');
-    update_btn.onclick = function(){
-      update(m_tbl);
-    };
+
   }
-
 };
