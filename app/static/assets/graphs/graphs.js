@@ -614,15 +614,25 @@ graphs = {
     var int_bar_chart = new Chart(int_b_ctx, params);
 
     // Adding the interactibility
-    var add_percent = document.getElementById('add_percent');
-    add_percent.onclick = function() {
-      var perc = parseInt(document.getElementById('intr_bar_data_in').value);
-      var symb = String(document.getElementById('intr_bar_in_symb').value);
-      int_bar_chart.data.labels.push(symb);
-      int_bar_chart.data.datasets[0].data.push(perc);
+    var update_bar = function() {
+      // var perc = parseInt(document.getElementById('intr_bar_data_in').value);
+      // var symb = String(document.getElementById('intr_bar_in_symb').value);
+
+      var d = m_tbl.getData(false);
+      var perc = [];
+      var labl = [];
+      for (const iterator of d) {
+        perc.push(iterator[2])
+        labl.push(iterator[0])
+      }
+      console.log('perc: ', perc)
+      int_bar_chart.data.labels = labl;
+      int_bar_chart.data.datasets[0].data = perc;
       console.log(int_bar_chart.data.datasets[0].data)
       int_bar_chart.update();
     };
+    var add_percent = document.getElementById('add_percent');
+    add_percent.onclick = update_bar
 
     var remove_perc = document.getElementById('remove_perc');
     remove_perc.onclick = function(){
@@ -722,15 +732,29 @@ graphs = {
         data:data,
         columns: [
           { type: 'text', title:'Company', width:120 },
-          { type: 'numeric', title:'Value (KR)', width:100},// mask:'KR ###.##,00', decimal:'.' },
-          { type: 'numeric', title:'Perc (%)', width:100}//, mask:'% ###.##,00', decimal:'.' },
+          { type: 'numeric', title:'Value (KR)', width: 100}, // mask:'KR ###.##,00', decimal:'.' },
+          { type: 'numeric', title:'Perc (%)', width: 100}, //, mask:'% ###.##,00', decimal:'.' },
+          { type: 'numeric', title:'Expected Perc (%)', width: 150}, //, mask:'% ###.##,00', decimal:'.' },
+          { type: 'numeric', title:'Expected Net (kr)', width: 150} //, mask:'% ###.##,00', decimal:'.' },
         ],
       });
 
     var update_btn = document.getElementById('update_t');
     update_btn.onclick = function(){
       update(m_tbl);
+      update_bar();
+    };
+    // #### CALCULATE FUTURE CHANGE 
+    var fut_net_btn = document.getElementById('add_exp_t');
+    fut_net_btn.onclick = function(){
+      var fut_net = parseFloat(document.getElementById('fut_total').value);
+      var d = m_tbl.getData(false);
+      for(let i=0; i<d.length; i++){
+        d[i][4] = ((d[i][3] * fut_net) / 100 ) - d[i][1]
+      }
+      m_tbl.setData(d)
     };
   }
+
 
 };
