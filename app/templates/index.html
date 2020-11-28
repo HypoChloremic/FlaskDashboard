@@ -1,3 +1,4 @@
+<!-- It is this part which will put the scripts in the end of the page -->
 {% extends "layouts/base.html" %}
 
 {% block title %} Dashboard {% endblock %} 
@@ -53,15 +54,16 @@
 
     </div>
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-lg-12">
         <div class="card card-chart">
           <div class="card-header">
-            <h5 class="card-category">Total Shipments</h5>
-            <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i> 763,215</h3>
+            <h5 class="card-category">Portfolio Composition</h5>
+            <!--Search for port_comp in graphs.js-->
+            <h3 class="card-title", id='port_comp'></h3> 
           </div>
           <div class="card-body">
             <div class="chart-area">
-              <canvas id="chartLinePurple"></canvas>
+              <canvas id="port_comp_chart"></canvas>
             </div>
           </div>
         </div>
@@ -88,6 +90,19 @@
           <div class="card-body">
             <div class="chart-area">
               <canvas id="chartLineGreen"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card card-chart">
+          <div class="card-header">
+            <h5 class="card-category">Interact Bar</h5>
+            <h3 class="card-title", id='int_bar_title'><i class="tim-icons icon-send text-success"></i></h3>
+          </div>
+          <div class="card-body">
+            <div class="chart-area">
+              <canvas id="interact_bar_canvas"></canvas>
             </div>
           </div>
         </div>

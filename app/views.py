@@ -14,7 +14,6 @@ from app import app
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path>')
 def index(path):
-
     try:
 
         # Detect the current page
